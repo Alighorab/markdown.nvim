@@ -1,5 +1,9 @@
 # Markdown.nvim
 
+<p align="center">
+  <img src="./media/screenshoot.png" />
+</p>
+
 - A markdown preview plugin written in Lua.
 - It uses [`libuv`] library which provides access to the multi-platform support 
 library `libuv` in Lua code.
@@ -50,8 +54,9 @@ I still prefer not to launch browser on opening any markdown but it will be an
 option soon.
 
 ## TODO
-- [ ] Close server and browser on buffer close
+- [x] Close server and browser on buffer close
 - [ ] Ability to choose free port automatically
+- [ ] Add autostart option
 
 
 [`libuv`]: https://github.com/libuv/libuv

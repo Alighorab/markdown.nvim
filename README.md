@@ -57,6 +57,8 @@ option soon.
 - [x] Close server and browser on buffer close
 - [ ] Ability to choose free port automatically
 - [ ] Add autostart option
+- [ ] See changes at realtime without saving
+- [ ] Syncronize scrolling
 
 
 [`libuv`]: https://github.com/libuv/libuv

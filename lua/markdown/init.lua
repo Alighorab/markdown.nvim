@@ -1,4 +1,4 @@
-local markdown = {}
+local md = {}
 
 local uv = vim.loop
 
@@ -10,7 +10,7 @@ local options = {
     browser = {
         enable = true,
         command = "firefox",
-        args = { "http://localhost:15213" },
+        args = {},
     }
 }
 
@@ -19,7 +19,7 @@ local _pids = {
     browser = -1,
 }
 
-markdown.setup = function(opts)
+md.setup = function(opts)
     for opt, val in pairs(opts) do
         if val then
             for k, v in pairs(val) do
@@ -40,14 +40,13 @@ markdown.setup = function(opts)
         pattern = "*.md",
         group = vim.api.nvim_create_augroup("MarkdownPreview", { clear = true }),
         callback = function ()
-            markdown.kill_server()
-            markdown.kill_browser()
+            md.kill_server()
+            md.kill_browser()
         end
     })
-
 end
 
-markdown.spawn_server = function()
+md.spawn_server = function()
     if options.server.enable then
         if _pids.server == -1 then
             local _, pid = uv.spawn("grip", {
@@ -63,16 +62,17 @@ markdown.spawn_server = function()
     end
 end
 
-markdown.kill_server = function()
+md.kill_server = function()
     if _pids.server ~= -1 then
         uv.kill(_pids.server, "sigint")
         _pids.server = -1
     end
 end
 
-markdown.spawn_browser = function()
+md.spawn_browser = function()
     if options.browser.enable then
         if _pids.browser == -1 and _pids.server ~= -1 then
+            table.insert(options.browser.args, "http://localhost:" .. tostring(options.server.port))
             local _, pid = uv.spawn(options.browser.command, {
                 args = options.browser.args
             }, function(code, _)
@@ -86,11 +86,11 @@ markdown.spawn_browser = function()
     end
 end
 
-markdown.kill_browser = function ()
+md.kill_browser = function ()
     if _pids.browser ~= -1 then
         uv.kill(_pids.browser, "sigint")
         _pids.browser = -1
     end
 end
 
-return markdown
+return md

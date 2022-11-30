@@ -22,14 +22,11 @@ local _pids = {
 }
 
 local function free_port()
-    -- load namespace
-    local socket = require("socket")
-    -- create a TCP socket and bind it to the local host, at any port
-    local server = assert(socket.bind("*", 0))
-    -- find out which port the OS chose for us
-    local _, port = server:getsockname()
+    local server = uv.new_tcp("inet")
+    server:bind("127.0.0.1", 0)
+    local data = server:getsockname()
     server:close()
-    return port
+    return data.port
 end
 
 local function spawn_grip()
@@ -75,7 +72,7 @@ md.spawn_server = function()
     if options.server.enable then
         if _pids.server == -1 then
             if options.server.port == "${port}" then
-                grip_port = free_port()
+                grip_port = tostring(free_port())
             else
                 grip_port = options.server.port
             end

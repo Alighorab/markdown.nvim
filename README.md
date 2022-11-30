@@ -14,13 +14,6 @@ library [`libuv`] in Lua code.
 ```zsh
 pip install grip
 ```
-- [`luasocket`], you can install it by running:
-```zsh
-git clone https://github.com/lunarmodules/luasocket.git
-cd luasocket
-make
-sudo make install
-```
 
 ## Installing
 With [`packer.nvim`]
@@ -51,6 +44,7 @@ require("markdown").setup({
         port = "${port}", -- Choose port automatically (recommended) or can be any free port
     },
     browser = {
+        enable = true,
         command = "firefox",
         args = {}, -- comma-separated string, e.g., { "-P", "Markdown", "--new-instance" }
     }
